@@ -25,7 +25,7 @@ SECRET_KEY = '^b8b)v$x(8(5&*4^)er^j)df+1icm^_h+ya2n75dftpuhpzv*7'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["https://onlinecompile.herokuapp.com","https://localhost"]
+ALLOWED_HOSTS = ["'onlinecompile.herokuapp.com'","localhost"]
 
 
 # Application definition
