@@ -1,0 +1,250 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Online Code Compile</title>
+    <style>
+        .main-wrapper {
+            height: 91vh;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background: black; 
+        }
+
+        .language-selector{
+            height: 95%;
+            width: 10%;
+            background: #202020;
+            margin-left: 1%;
+            margin-right: 1%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-style: outset;
+        }
+        
+        .code-wrapper{
+            height: 95%;
+            width: 85%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            border-style: outset;
+        }
+
+        .code-editor{
+            height: 65%;
+            width: 100%;
+            background:black;
+            
+        }
+
+        .console-wrapper{
+            height: 35%;
+            width: 100%;
+            border-style: outset;
+            
+        }
+
+
+        #editor { 
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .console-taskbar{
+            height: 13%;
+            width: 100%;
+            background-color: aqua;
+        }
+
+        .console-main{
+            height: 85%;
+            width: 100%;
+        }
+
+        .console-run-button{
+            border: 0;
+            background: transparent;
+            box-sizing: border-box;
+            width: 0;
+            height: 74px;
+
+            border-color: transparent transparent transparent #202020;
+            transition: 100ms all ease;
+            cursor: pointer;
+
+            border-style: solid;
+            border-width: 37px 0 37px 60px;
+
+        }
+
+        .console-text-area{
+            width: 100%;
+            height: 100%;
+            padding-right: 2%;
+            padding-left: 2%;
+            font-size: small;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  
+</head>
+
+
+
+<body>
+    
+    {% include 'navbar.html' %}
+    
+    <div class="main-wrapper">
+        <div class="empty-start"></div>
+        <div class="language-selector">
+            <div class="col">
+                <div>
+                    <div class="dropdown">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="lang-selector-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 12px;width: 100%;">
+                            Python 3
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#" onclick="setmode('cpp')">C++</a>
+                          <a class="dropdown-item" href="#" onclick="setmode('c')">C</a>
+                          <a class="dropdown-item" href="#" onclick="setmode('java')">Java</a>
+                          <a class="dropdown-item" href="#" onclick="setmode('python3')">Python 3</a>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="code-wrapper">
+            <div class="code-editor">
+                <div class="col" style="height: 100%; width: 100%;">
+                        <div id="editor"># Write code here
+print("Hello World")</div>
+                    
+                </div>
+            </div>
+
+            <div class="col console-wrapper" style="padding-left: 0%;padding-right: 0%;">
+                {% include 'console_navbar.html' %}
+                <div class="console-main" id="console-main">
+                    <textarea name="console-text-area" id="console-text-area" class="console-text-area"></textarea>
+                </div>
+            </div>
+        </div>
+        
+
+    </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/mode-python.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/mode-c_cpp.min.js" integrity="sha512-0OZmNbvdTUAXjS/gE+K7ytccKZGonVz82m6zzAZ5kbByRTC0WlO2BL3BjSvpzn4mCnpr3gFSRmqUVPrzJLVEwg==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/mode-java.min.js" integrity="sha512-cBlD1MiRruu3tqWXrtxq3TrDDGF5NWpUQftHE6kS412z04C/nfl6DPMAJi2UJ70+X3eaCjiUdw7m1SaWPytZ2g==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/theme-twilight.min.js" type="text/javascript" charset="utf-8"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+    <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/twilight");
+        editor.session.setMode("ace/mode/python");
+    </script>
+
+    <script>
+        var input = "";
+        var output = "";
+        var mode = "python3";
+        // 0 = input mode and 1 = output mode
+        var currmode = 0;
+        function console_input_mode() {
+            console = document.getElementById("console-text-area");
+            if(currmode == 1){
+                output = console.value;
+                console.value = input;
+                currmode = 0;
+                console.removeAttribute('readonly')
+            }
+        }
+        function console_output_mode() {
+            console = document.getElementById("console-text-area");
+            if(currmode == 0){
+                console.removeAttribute('readonly');
+                input = console.value;
+                console.value = output;
+                currmode = 1;
+                console.readOnly = "true";
+            }
+        }
+
+        function submit_code(){
+            var editor = ace.edit("editor");
+            var code = editor.getValue();
+            var token = '{{csrf_token}}';
+            const data = {
+                code:code,
+                input:input,
+                mode:mode
+            }
+            $.ajax({
+                url:'http://localhost:8000/send',
+                type:"POST",
+                headers: { "X-CSRFToken": token },
+                data:JSON.stringify(data),
+                dataType: "json",
+                success: function(result){
+                    output = result.output;
+                    console_output_mode();
+                },
+                error:function(error){
+                    console.log('Error ${error}');
+                }
+            })
+
+        }
+
+        function setmode(lang){
+            var main_butt = document.getElementById("lang-selector-button");
+            switch(lang){
+                case "python3":
+                    mode = "python3";
+                    editor.setValue("# Write code here\nprint(\"Hello World\")",0);
+                    editor.session.setMode("ace/mode/python");
+                    main_butt.innerHTML = 'Python 3';
+                    break;
+                case "java":
+                    mode = "java";
+                    editor.setValue("import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\n/* Name of the class has to be \"Main\" only if the class is public. */\nclass Ideone\n{\n	public static void main (String[] args) throws java.lang.Exception\n	{\n		// your code goes here\n	}\n}",0);
+                    editor.session.setMode("ace/mode/java");
+                    main_butt.innerHTML = 'Java';
+                    break;
+                case "c":
+                    mode = "c";
+                    editor.setValue("#include <stdio.h>\n\nint main(void) \{\n// your code goes here\nreturn 0;\}",0);
+                    editor.session.setMode("ace/mode/c_cpp");
+                    main_butt.innerHTML = 'C';
+                    break;
+                case "cpp":
+                    mode = "cpp";
+                    editor.setValue("#include <iostream>\nusing namespace std;\n\nint main()\{\n// your code goes here\nreturn 0;\n}",0);
+                    editor.session.setMode("ace/mode/c_cpp");
+                    main_butt.innerHTML = 'C++';
+                    break;
+            }
+        }
+
+    </script>
+
+</body>
+</html>

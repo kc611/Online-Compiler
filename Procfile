@@ -1,0 +1,1 @@
+web: gunicorn OnlineCompile.wsgi --log-file -
