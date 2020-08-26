@@ -1,119 +1,48 @@
-{% load static %}
-<!DOCTYPE html>
+import React from 'react';
+import $ from 'jquery';
+import './App.css';
+import './styles.css';
+import './main_functions.js';
 
-<html>
-<head>
-    <title>Online Code Compile</title>
-    <style>
-        .main-wrapper {
-            height: 91vh;
-            width: 100%;
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            background: black; 
-        }
+function App() {
+  return (
+    <div className="App">
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous"></link>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"></link>
+      
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">OnlineCompile</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-        .language-selector{
-            height: 95%;
-            width: 10%;
-            background: #202020;
-            margin-left: 1%;
-            margin-right: 1%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-style: outset;
-        }
-        
-        .code-wrapper{
-            height: 95%;
-            width: 85%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            border-style: outset;
-        }
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'upcoming' %}">Upcoming</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'about' %}">About</a>
+            </li>
+          </ul>
+          <a href="https://github.com/kc611/Online-Compiler">
+              <button class="btn btn-success">
+                  Contribute
+              </button>
+          </a>
+        </div>
+      </nav>
 
-        .code-editor{
-            height: 65%;
-            width: 100%;
-            background:black;
-            
-        }
-
-        .console-wrapper{
-            height: 35%;
-            width: 100%;
-            border-style: outset;
-            
-        }
-
-
-        #editor { 
-            position: absolute;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            left: 0;
-        }
-
-        .console-taskbar{
-            height: 13%;
-            width: 100%;
-            background-color: aqua;
-        }
-
-        .console-main{
-            height: 85%;
-            width: 100%;
-        }
-
-        .console-run-button{
-            border: 0;
-            background: transparent;
-            box-sizing: border-box;
-            width: 0;
-            height: 74px;
-
-            border-color: transparent transparent transparent #202020;
-            transition: 100ms all ease;
-            cursor: pointer;
-
-            border-style: solid;
-            border-width: 37px 0 37px 60px;
-
-        }
-
-        .console-text-area{
-            width: 100%;
-            height: 100%;
-            padding-right: 2%;
-            padding-left: 2%;
-            font-size: small;
-        }
-    </style>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  
-</head>
-
-
-
-<body>
-    
-    {% include 'navbar.html' %}
-    
-    <div class="main-wrapper">
+      <div class="main-wrapper">
         <div class="empty-start"></div>
         <div class="language-selector">
             <div class="col">
                 <div>
                     <div class="dropdown">
-                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="lang-selector-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 12px;width: 100%;">
+                        <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="lang-selector-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{marginTop:'12px',width:'100%'}}>
                             Python 3
                         </button>
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
@@ -129,15 +58,34 @@
 
         <div class="code-wrapper">
             <div class="code-editor">
-                <div class="col" style="height: 100%; width: 100%;">
+                <div class="col" style={{height:'100%',width:'100%'}}>
                         <div id="editor"># Write code here
 print("Hello World")</div>
                     
                 </div>
             </div>
 
-            <div class="col console-wrapper" style="padding-left: 0%;padding-right: 0%;">
-                {% include 'console_navbar.html' %}
+            <div class="col console-wrapper" style={{paddingLeft:'0%',paddingRight:'0%'}}>
+                <div class="console-navbar-wrapper">
+                  <nav class="navbar navbar-expand-lg navbar-light bg-light" style={{height:'5%'}}>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                      <ul class="navbar-nav">
+                        <li class="nav-item active">
+                          <a class="nav-link" href="#" onclick="console_input_mode()">Input</a>
+                        </li>
+                        <li class="nav-item">
+                          <a class="nav-link" href="#" onclick="console_output_mode()">Output</a>
+                        </li>
+                      </ul>
+                      <ul class="nav navbar-nav navbar-right" style={{float:'right'}}>
+                        <li><a href="#" onclick="submit_code()">Run
+                          <i class="fa fa-play"></i>
+                        </a></li>
+                      </ul>
+                    </div>
+                  </nav>
+                </div>
+                {/* {% include 'console_navbar.html' %} */}
                 <div class="console-main" id="console-main">
                     <textarea name="console-text-area" id="console-text-area" class="console-text-area"></textarea>
                 </div>
@@ -161,7 +109,7 @@ print("Hello World")</div>
         editor.setTheme("ace/theme/twilight");
         editor.session.setMode("ace/mode/python");
     </script>
-
+{/* 
     <script>
         var input = "";
         var output = "";
@@ -225,7 +173,7 @@ print("Hello World")</div>
                     break;
                 case "java":
                     mode = "java";
-                    editor.setValue("import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\n/* Name of the class has to be \"Main\" only if the class is public. */\nclass Ideone\n{\n	public static void main (String[] args) throws java.lang.Exception\n	{\n		// your code goes here\n	}\n}",0);
+                    editor.setValue("import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\n/* Name of the class has to be \"Main\" only if the class is public. \nclass Ideone\n{\n	public static void main (String[] args) throws java.lang.Exception\n	{\n		// your code goes here\n	}\n}",0);
                     editor.session.setMode("ace/mode/java");
                     main_butt.innerHTML = 'Java';
                     break;
@@ -244,7 +192,9 @@ print("Hello World")</div>
             }
         }
 
-    </script>
+      </script> */}
+    </div>
+  );
+}
 
-</body>
-</html>
+export default App;
