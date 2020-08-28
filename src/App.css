@@ -1,38 +1,113 @@
-.App {
-  text-align: center;
+:root{
+    --bg:#242526;
+    --bg-accent:#484a4d;
+    --text-color:#dadce1;
+    --nav-size:60px;
+    --border:1px solid #474a4d;
+    --border-radius:8px;
+    --speed:500ms;
+
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+a{
+  color: var(--text-color);
+  text-decoration:none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.main-wrapper {
+  height: 91vh;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: black; 
+}
+
+.language-selector{
+  height: 95%;
+  width: 10%;
+  background: #202020;
+  margin-left: 1%;
+  margin-right: 1%;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  border-style: outset;
 }
 
-.App-link {
-  color: #61dafb;
+.code-wrapper{
+  height: 95%;
+  width: 85%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-style: outset;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.code-editor{
+  height: 65%;
+  width: 100%;
+  background:black;
+  
 }
+
+.console-wrapper{
+  height: 35%;
+  width: 100%;
+  border-style: outset;
+  
+}
+
+
+#editor { 
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.console-taskbar{
+  height: 13%;
+  width: 100%;
+  background-color: aqua;
+}
+
+.console-main{
+  height: 85%;
+  width: 100%;
+}
+
+.console-run-button{
+  border: 0;
+  background: transparent;
+  box-sizing: border-box;
+  width: 0;
+  height: 74px;
+
+  border-color: transparent transparent transparent #202020;
+  transition: 100ms all ease;
+  cursor: pointer;
+
+  border-style: solid;
+  border-width: 37px 0 37px 60px;
+
+}
+
+.console-text-area{
+  width: 100%;
+  height: 100%;
+  padding-right: 2%;
+  padding-left: 2%;
+  font-size: small;
+}
+
