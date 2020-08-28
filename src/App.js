@@ -1,47 +1,66 @@
-import React,{useState} from 'react';
+import React, { Component } from 'react';
 import './App.css';
-import AceEditor from 'react-ace';
+import './styles.css';
+import Nav from './Components/Nav';
+import Editor from './Components/Editor'
 
-/* eslint-disable */
+class App extends Component {
 
+	constructor(props) {
+		super(props);
 
-function App() {
+		this.state = {
+			mode: "python",
+			val: {
+				python: "Python",
+				cpp: "C++",
+				c: "C",
+				java: "JAVA"
+			}
+		}
 
-  return (
-    <div className="App">
+		this.changeMode = this.changeMode.bind(this);
+	}
 
-      <MainNavbar />
+	changeMode(mode) {
+		this.setState({mode: mode});
+		var element = document.querySelector("#lang-selector-button");
+		element.innerHTML = this.state.val[mode];
+	}
 
-      <div className="main-wrapper">
-        <div className="empty-start"></div>
-        <div className="language-selector">
-          <div className="col">
-            <div>
+	render() {
+		return (
+			<div classNameName="App">
+				
+				<Nav />
 
+				<div className="main-wrapper">
+					<div className="empty-start"></div>
+					<div className="language-selector">
+						<div className="col">
+							<div>
+								<div className="dropdown">
+									<button className="btn btn-secondary btn-sm dropdown-toggle" type="button" id="lang-selector-button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style={{ marginTop: '12px', width: '100%' }}>
+										Python
+										</button>
+									<div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+										<a className="dropdown-item" href="#" onClick={() => this.changeMode('cpp')}>C++</a>
+										<a className="dropdown-item" href="#" onClick={() => this.changeMode('c')}>C</a>
+										<a className="dropdown-item" href="#" onClick={() => this.changeMode('java')}>Java</a>
+										<a className="dropdown-item" href="#" onClick={() => this.changeMode('python')}>Python</a>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 
-            </div>
-          </div>
-        </div>
+					<Editor mode={this.state.mode} />
 
-        <div className="code-wrapper">
-          <div className="code-editor">
-            <div className="col" style={{ height: '100%', width: '100%' }}>
-              <AceEditor mode="python" theme="monokai" height="100%" width="100%" />
-            </div>
-          </div>
+				</div>
 
-          <div className="col console-wrapper" style={{ paddingLeft: '0%', paddingRight: '0%' }}>
-            <div className="console-navbar-wrapper">
-            <ConsoleNavbar />
-            </div>
-            <div className="console-main" id="console-main">
-              <textarea name="console-text-area" id="console-text-area" className="console-text-area"></textarea>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
+			</div>
+		);
+	}
 }
 
 function MainNavbar() {
